@@ -14,11 +14,11 @@ runs:
   using: "composite"
   steps:
     - name: Checkout Project export
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     - name: Set up Node
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v6
       with:
-        node-version: 18.x
+        node-version: 24.x
     - run: |
         npm install -g @openfn/cli
         openfn deploy -c $OPENFN_CONFIG_PATH --no-confirm
@@ -27,6 +27,6 @@ runs:
         OPENFN_API_KEY: ${{ inputs.secret_input }}
         OPENFN_CONFIG_PATH: ${{ inputs.config_path_input }}
     - name: Commit updated state file
-      uses: stefanzweifel/git-auto-commit-action@v4
+      uses: stefanzweifel/git-auto-commit-action@v7
       with: 
         commit_message: Changes accepted by Lightning; updated current project state
