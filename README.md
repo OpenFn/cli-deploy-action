@@ -1,33 +1,37 @@
-#OpenFN Github Deploy Action 
+# OpenFn GitHub Deploy Action
 
-This action deploys to a specific Lightning instance whenever it is invoked.
+Deploys an OpenFn project workspace to Lightning using `openfn project deploy`,
+then commits the updated project state back to the branch.
 
-It depends on an repository containing the following
+The repository must contain an `openfn.yaml` workspace (as created by
+`openfn project pull` or by Lightning's GitHub sync). Commit the `.openfn/`
+folder: deploy uses it to detect changes made in Lightning since the last sync.
 
-1. A `state.json` file which details ids and jobs in a project
-2. A `project.yaml` file detailing a project its workflows, edges and triggers 
-3. A `config.json` file detailing a connection to a Lightning instance
+> `v1` of this action uses the legacy `config.json` / `openfn deploy` format.
+> Pin to `@v1` if your repo still uses it.
 
-Additionally one needs to pass in their OPENFN API KEY to the action as an input best way to do this would be through 
-an input. The required key is `secret_input`
-
-See an example project structure [here](https://github.com/OpenFn/dummy-deploy-test)
-
-An example of how to use this action in workflow 
-```
+```yaml
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      force:
+        type: boolean
+        default: false
 
 jobs:
   deploy-to-lightning:
     runs-on: ubuntu-latest
-    name: Deploy this project to OpenFn/Lightning
+    permissions:
+      contents: write
     steps:
-      - name: Deploy to Lightning
-        uses: openfn/deploy-action@v0.1.9 
-        with: 
+      - name: openfn deploy
+        uses: openfn/cli-deploy-action@v2
+        with:
           secret_input: ${{ secrets.OPENFN_API_KEY }}
+          project_id_input: <project uuid>
+          endpoint_input: https://app.openfn.org
+          force_input: ${{ inputs.force || false }}
 ```
-
