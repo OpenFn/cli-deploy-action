@@ -7,6 +7,10 @@ The repository must contain an `openfn.yaml` workspace (as created by
 `openfn project pull` or by Lightning's GitHub sync). Commit the `.openfn/`
 folder: deploy uses it to detect changes made in Lightning since the last sync.
 
+`endpoint_input` is optional. Without it, the CLI uses the endpoint the
+workspace already tracks for the project, then `OPENFN_ENDPOINT`, then
+app.openfn.org.
+
 > `v1` of this action uses the legacy `config.json` / `openfn deploy` format.
 > Pin to `@v1` if your repo still uses it.
 
