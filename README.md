@@ -38,4 +38,5 @@ jobs:
           project_id_input: <project uuid>
           endpoint_input: https://app.openfn.org
           force_input: ${{ inputs.force || false }}
+          workspace_input: projects/my-project # optional, defaults to the repo root
 ```

@@ -14,6 +14,10 @@ inputs:
     description: "Lightning URL, e.g. https://app.openfn.org. Defaults to the endpoint the workspace tracks"
     required: false
     default: ''
+  workspace_input:
+    description: "Folder holding the project's openfn.yaml, relative to the repo root. Defaults to the root"
+    required: false
+    default: ''
   force_input:
     description: "Deploy even if the project has changed in Lightning since the last sync"
     required: false
@@ -44,6 +48,7 @@ runs:
         OPENFN_PROJECT_ID: ${{ inputs.project_id_input }}
         OPENFN_DEPLOY_ENDPOINT: ${{ inputs.endpoint_input }}
         OPENFN_FORCE: ${{ inputs.force_input }}
+        OPENFN_WORKSPACE: ${{ inputs.workspace_input }}
         # Sync relies on deploy rewriting the checkout files (.openfn/)
         OPENFN_NO_CHECKOUT_AFTER_DEPLOY: 'false'
     - name: Commit updated state file
